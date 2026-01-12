@@ -1,111 +1,75 @@
-# location-finder
-Lattitude and longitude location finder using map api
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Smart Location Finder</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+Geo Track Location Finder
 
-  <style>
-    body {
-      font-family: Arial;
-      padding: 10px;
-    }
-    input, button {
-      width: 100%;
-      padding: 8px;
-      margin: 5px 0;
-    }
-    #map {
-      height: 300px;
-      margin-top: 10px;
-    }
-    #info {
-      margin-top: 8px;
-      font-weight: bold;
-    }
-  </style>
-</head>
+# Overview
+Geo Track is a simple website that helps users find any place on a map using latitude and longitude.
+The user enters two numbers, and the map shows the exact location with a pin.
+The project is kept clear and simple, focusing on accuracy and easy understanding.
+It is mainly designed for academic use, demos, and beginners who are learning how maps work on websites.
 
-<body>
+# Features
+Users can enter latitude and longitude manually
+A button is used to show the location on the map
+The map is interactive and easy to use
+Users can switch between street view and satellite view
+Zoom in and zoom out options are available
+The marker updates properly without overlapping
+Input values are checked to avoid wrong coordinates
+Coordinates are shown with direction (North, South, East, West)
+A preset button loads College of Engineering Perumon instantly.
 
-  <h3>Smart Location Finder (Satellite + Name)</h3>
+# Technologies Used
+HTML – creates the structure of the webpage
+CSS – makes the page look clean and readable
+JavaScript – handles logic and user interaction
+Leaflet.js – displays and controls the map
+OpenStreetMap – provides street map data
+Esri World Imagery – provides satellite images.
 
-  <input type="number" step="any" id="lat" placeholder="Enter Latitude">
-  <input type="number" step="any" id="lon" placeholder="Enter Longitude">
+#How the Application Works
+The user enters latitude and longitude values.
+When the Show Location button is clicked, the inputs are checked.
+The map loads using Leaflet.js.
+The map moves to the entered coordinates.
+A pin is placed at that exact position.
+The user can change between street view and satellite view.
+The coordinates are shown clearly without confusion.
 
-  <button onclick="showLocation()">Show on Map</button>
-  <button onclick="loadCollege()">📍 College of Engineering Perumon</button>
+# User Interaction
+Manual Input: Type coordinates and click Show Location
+Preset Button: Instantly load College of Engineering Perumon
+Map Controls: Zoom in and out easily
+Layer Control: Switch between street and satellite maps
 
-  <div id="info"></div>
-  <div id="map"></div>
+# Coordinate Display
+Coordinates are shown in:
+Decimal Degrees (DD)
+Direction format (N, S, E, W)
+This helps users understand the location better and verify it easily.
 
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+# Deployment
+The project runs as a static website
+No backend or database is used
+It works directly in any modern web browser
+Internet is required to load the map
 
-  <script>
-    var normalMap = L.tileLayer(
-      'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    );
+# Testing & Validation
+Tested using known coordinate values
+Confirmed correct pin placement
+Checked zoom and map switching
+Tested on both desktop and mobile browsers
 
-    var satelliteMap = L.tileLayer(
-      'https://server.arcgisonline.com/ArcGIS/rest/services/' +
-      'World_Imagery/MapServer/tile/{z}/{y}/{x}'
-    );
+# Limitations
+Does not automatically detect user location
+Cannot be used without internet
+Accuracy depends on correct user input
 
-    var map = L.map('map', {
-      center: [0, 0],
-      zoom: 2,
-      layers: [satelliteMap]
-    });
+# Academic Relevance
+This project helps in understanding:
+Basic frontend web development
+How maps work on websites
+How APIs and libraries are used
+Practical use of latitude and longitude
 
-    L.control.layers({
-      "Normal Map": normalMap,
-      "Satellite View": satelliteMap
-    }).addTo(map);
-
-    var marker;
-
-    function getDirection(lat, lon) {
-      let latDir = lat >= 0 ? "N" : "S";
-      let lonDir = lon >= 0 ? "E" : "W";
-      return Math.abs(lat) + "° " + latDir + ", " + Math.abs(lon) + "° " + lonDir;
-    }
-
-    function showLocation() {
-      var lat = parseFloat(document.getElementById("lat").value);
-      var lon = parseFloat(document.getElementById("lon").value);
-
-      if (isNaN(lat) || isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
-        alert("Enter valid latitude (-90 to 90) and longitude (-180 to 180)");
-        return;
-      }
-
-      if (marker) map.removeLayer(marker);
-
-      marker = L.marker([lat, lon]).addTo(map);
-      map.setView([lat, lon], 17);
-
-      document.getElementById("info").innerText =
-        "Coordinates: " + getDirection(lat, lon) + "\nFetching location name...";
-
-      // Reverse Geocoding
-      fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById("info").innerText =
-            "📍 Location: " + data.display_name +
-            "\n📐 Coordinates: " + getDirection(lat, lon);
-        });
-    }
-
-    function loadCollege() {
-      document.getElementById("lat").value = 8.964889;
-      document.getElementById("lon").value = 76.620084;
-      showLocation();
-    }
-  </script>
-
-</body>
-</html>
+# License
+This project is created only for educational and academic purposes.
